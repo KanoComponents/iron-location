@@ -379,6 +379,15 @@ Polymer({
     if (normalizedHref[0] !== '/') {
       normalizedHref = '/' + normalizedHref;
     }
+    
+    /**
+     * Fix for iOS 10. It adds extra `/` to pathname when create a new URL()
+     */
+    var path = normalizedHref;
+    var pathHasSlashes = path.indexOf("///");
+    if (pathHasSlashes === 0) {
+      normalizedHref = path.substr(2);
+    }
 
     // If we've been configured not to handle this url... don't handle it!
     if (this._urlSpaceRegExp && !this._urlSpaceRegExp.test(normalizedHref)) {
